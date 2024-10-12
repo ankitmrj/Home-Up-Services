@@ -3,7 +3,7 @@ Overview
 Home's Up is a user-friendly platform designed to connect customers with reliable home service providers, including plumbers, electricians, and painters. The platform aims to simplify the process of booking home services, making it accessible and efficient, especially during challenging times.
 
 Purpose
-Connecting People: To provide a common platform for customers and service providers to find each other easily.
+Connecting People: To provide a common platform for customers and service providers to find each other easily
 Enhancing Employability: To help daily-wage workers improve their visibility and job opportunities.
 Features
 Google Authentication: One-click login system for both service providers and customers, ensuring secure access.
