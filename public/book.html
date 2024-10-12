@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appointment Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #1c1c1c; /* Dark background */
+            color: #f1f1f1; /* Light text color for contrast */
+        }
+        .container {
+            max-width: 400px; /* Smaller form size */
+            margin: auto;
+            background: #333; /* Dark container background */
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+        }
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #ff9f43; /* Accent color for heading */
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="tel"], input[type="date"], input[type="time"], textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: none;
+            border-radius: 4px;
+            background-color: #555;
+            color: #fff;
+        }
+        input[type="text"]:focus, input[type="tel"]:focus, input[type="date"]:focus, input[type="time"]:focus, textarea:focus {
+            background-color: #666; /* Darker input background on focus */
+            outline: none;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #28a745; /* Green button */
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+        #successMessage {
+            display: none;
+            color: #28a745;
+            text-align: center;
+            margin-top: 15px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            input[type="text"], input[type="tel"], input[type="date"], input[type="time"], textarea {
+                padding: 8px;
+            }
+            button {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Book an Appointment</h2>
+        <form id="appointmentForm">
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            
+            <label for="mobile">Mobile Number:</label>
+            <input type="tel" id="mobile" name="mobile" placeholder="Enter your mobile number" required>
+
+            <label for="address">Address:</label>
+            <input type="text" id="address" name="address" placeholder="Enter your address" required>
+
+            <label for="city">City:</label>
+            <input type="text" id="city" name="city" placeholder="Enter your city" required>
+
+            <label for="state">State:</label>
+            <input type="text" id="state" name="state" placeholder="Enter your state" required>
+
+            <label for="appointmentDate">Appointment Date:</label>
+            <input type="date" id="appointmentDate" name="appointmentDate" required>
+
+            <label for="appointmentTime">Appointment Time:</label>
+            <input type="time" id="appointmentTime" name="appointmentTime" required>
+
+            <label for="reason">Reason for Request:</label>
+            <textarea id="reason" name="reason" placeholder="Describe the reason for the request" required></textarea>
+
+            <button type="submit">Submit</button>
+        </form>
+        <div id="successMessage">
+            Appointment booked successfully!
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent default form submission
+
+            const formData = {
+                name: document.getElementById('name').value,
+                mobile: document.getElementById('mobile').value,
+                address: document.getElementById('address').value,
+                city: document.getElementById('city').value,
+                state: document.getElementById('state').value,
+                appointmentDate: document.getElementById('appointmentDate').value,
+                appointmentTime: document.getElementById('appointmentTime').value,
+                reason: document.getElementById('reason').value,
+            };
+
+            fetch('/submit-form', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(formData),
+            })
+            .then(response => {
+                if (!response.ok) {
+                    // If the response is not OK, throw an error
+                    throw new Error('Network response was not ok ' + response.statusText);
+                }
+                return response.json(); // Return the response as JSON
+            })
+            .then(data => {
+                if (data.success) {
+                    document.getElementById('successMessage').style.display = 'block';
+                    document.getElementById('appointmentForm').reset();
+                } else {
+                    alert(data.message);
+                }
+            })
+            .catch(err => alert('Error: ' + err.message));
+        });
+    </script>
+</body>
+</html>
